@@ -1,0 +1,39 @@
+Script started on Fri 20 Feb 2015 06:18:07 PM EST
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                  [0m[27m[24m[J
+(B[m[34m(B[m[32m[1mblazer(B[m[34m (B[m[34m[1m~/dev/mqp (B[m[34m(B[m[35m18:18 (B[m[34m
+(B[m(B[m [K[192C[31m[00m[192D[?1h=[A[A[0m[27m[24m[J
+(B[m[34m(B[m[32m[1mblazer(B[m[34m (B[m[34m[1m~/dev/mqp (B[m[34m(B[m[35m18:18 (B[m[34m
+(B[m➤(B[m [K[191C[31m[00m[191D[32mscript[39m[32mp[32my[32mt[32mh[32mo[32mn[39m [4mmain.py[24m[?1l>[A[A[0m[27m[24m[J
+(B[m[34m(B[m[32m[1mblazer(B[m[34m (B[m[34m[1m~/dev/mqp (B[m[34m(B[m[35m18:18 (B[m[34m
+(B[m➤(B[m [32mpython[39m [4mmain.py[24m[K[177C[31m[00m[177D
+Augmented Unix Userland
+>>> ls
+[DEBUG]: evaluating Python:  Printer()(RawCommand('ls')())
+commands.py
+example_cmd.py
+formatters.py
+main.py
+__pycache__
+typescript
+
+>>> ls | grep format
+[DEBUG]: evaluating Python:  Printer()(RawCommand('grep', args=('format',))(RawCommand('ls')()))
+formatters.py
+
+>>> >ls  2 + 2
+4
+>>> >ls  )ou     grep    ls_outu put = ls()
+>>> >ls  grep.args = (', py',)
+>>> >grepped_outpu          p.args = ('format',)
+>>> >grepped_output = ls  grep(ls_output)
+>>> >g Printer()(grepped_output)
+formatters.py
+
+>>> 
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                  [0m[27m[24m[J
+(B[m[34m(B[m[32m[1mblazer(B[m[34m (B[m[34m[1m~/dev/mqp (B[m[34m(B[m[35m18:19 (B[m[34m
+(B[m➤(B[m [K[191C[31m[00m[191D[?1h=[A[A[0m[27m[24m[J
+(B[m[34m(B[m[32m[1mblazer(B[m[34m (B[m[34m[1m~/dev/mqp (B[m[34m(B[m[35m18:19 (B[m[34m
+(B[m➤(B[m [K[191C[31m[00m[191D
+
+Script done on Fri 20 Feb 2015 06:19:26 PM EST
