@@ -15,7 +15,7 @@ class Sort(BaseCommand):
     def call(self,*args,**kwargs):
         input_generator = self.get_input_generator()
         def output_generator():
-            for args in self.args:
+            for args in sorted(self.args):
                 yield TreeNode(args.encode("utf-8"))
             for node in input_generator:
                 line = node.data
