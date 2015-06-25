@@ -15,9 +15,18 @@ class Reverse(BaseCommand):
     def call(self,*args,**kwargs):
         input_generator = self.get_input_generator()
         def output_generator():
-            for args in reversed(self.args):
-                yield TreeNode(args.encode("utf-8"))
-            for node in input_generator:
-                line = node.data
-                yield TreeNode(line)
+
+            mapped_inputs = map(lambda node: node.data, input_generator)
+            print "mapped_inputs ="
+            print mapped_inputs
+            mapped_args = map(lambda arg: arg.encode("utf-8"), self.args)
+            print "mapped_args ="
+            print mapped_args
+            mapped_args.extend(mapped_inputs)
+            print "After extend, mapped_args ="
+            print mapped_args
+            reverse_result = reversed(mapped_args);
+            
+            for arg in reverse_result:
+                yield TreeNode(arg)
         return output_generator
