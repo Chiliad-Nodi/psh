@@ -16,8 +16,12 @@ class Reverse(BaseCommand):
         input_generator = self.get_input_generator()
         def output_generator():
             #Parse flags:
-            for arg in filter(lambda arg:arg[0] == '-', self.args)
-
+            for arg in filter(lambda arg:arg[0] == '-', self.args):
+                if(arg == '-s'): #separator
+                    #resplit(s, args) TODO: IMPLEMENT RESPLIT
+                    pass;
+                else:
+                    self.estream("Invalid argument: Ignoring " + arg)
             
             mapped_inputs = map(lambda node: node.data, input_generator)
             #remove all flags

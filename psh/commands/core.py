@@ -1,6 +1,11 @@
+from __future__ import print_function
 from io import StringIO
+import os
+import sys
 
 from psh.tree import TreeNode
+
+ERROR_LOG = "~/.error"
 
 
 class BaseCommand(object):
@@ -14,9 +19,10 @@ class BaseCommand(object):
     ls.chain(grep).chain(printer).call()
     """
 
-    def __init__(self, args=None):
+    def __init__(self, args=None, errorlog=os.path.expanduser(ERROR_LOG)):
         self.cmd_args = args
         self.prev_cmd = None
+        self.errorlog = errorlog
 
     def call(self, *args, **kwargs):
         """Implicitly calls any chained commands, returning a function
@@ -31,13 +37,16 @@ class BaseCommand(object):
             make_input_generator = self.prev_cmd.call()
             input_generator = make_input_generator()
         else:
-            input_generator = []
+           input_generator = []
         return input_generator
 
     def chain(self, cmd):
         """Chains a command to another command, returning the other command"""
         cmd.prev_cmd = self
         return cmd
+
+    def estream(self, msg):
+            print(msg, file=sys.stderr)
 
 
 registered_cmds = {}
