@@ -15,7 +15,6 @@ class Cat(BaseCommand):
         input_generator = self.get_input_generator()
         def output_generator():
             mapped_args = map(lambda arg: arg.encode("utf-8"), self.args)
-            print self.args
             for arg in mapped_args:
                 if arg == '-':
                     for node in input_generator:
