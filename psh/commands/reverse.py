@@ -29,7 +29,7 @@ class Reverse(BaseCommand):
             mapped_args = map(lambda arg: arg.encode("utf-8"), mapped_args)
             mapped_args.extend(mapped_inputs)
             #reverse arguments
-            reverse_result = reversed(mapped_args);
+            reverse_result = reversed(mapped_args)
             #return results
             for arg in reverse_result:
                 yield TreeNode(arg)
