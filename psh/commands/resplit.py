@@ -1,3 +1,5 @@
+from functools import reduce
+
 from psh.commands.core import BaseCommand, register_cmd
 
 from psh.tree import TreeNode
@@ -27,14 +29,15 @@ class Resplit(BaseCommand):
 
             #remove flags from inputs, get proper encoding
             filtered_args = filter(lambda arg: arg[0] != '-', self.args)
-            mapped_args = map(lambda arg: arg.encode("utf-8"), filtered_args)
-            mapped_inputs = map(lambda node: node.data, input_generator)
-            mapped_inputs.extend(mapped_args)
+            #mapped_args = map(lambda arg: arg.encode("utf-8"), filtered_args)
+            mapped_inputs = list(map(lambda node: node.data, input_generator))
+            mapped_inputs.extend(list(filtered_args))
 
             #perform the respliting
-            mapped_inputs = reduce(lambda x, y: x + oldsep + y, mapped_inputs)
+            mapped_inputs = reduce(lambda x, y: str(x) + str(oldsep) + str(y), list(mapped_inputs))
             mapped_inputs = mapped_inputs.split(seperator)
             
+            
             for piece in mapped_inputs:
-                 yield TreeNode(piece)
+                 yield TreeNode(piece.encode("utf-8"))
         return output_generator

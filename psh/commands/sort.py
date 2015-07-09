@@ -19,10 +19,10 @@ class Sort(BaseCommand):
             mapped_inputs = map(lambda node: node.data, input_generator)
             #print "mapped_inputs ="
             #print mapped_inputs
-            mapped_args = map(lambda arg: arg.encode("utf-8"), self.args)
+            mapped_args = list(map(lambda arg: arg.encode("utf-8"), self.args))
             #print "mapped_args ="
             #print mapped_args
-            mapped_args.extend(mapped_inputs)
+            mapped_args.extend(list(mapped_inputs))
             #print "After extend, mapped_args ="
             #print mapped_args
             sort_result = sorted(mapped_args);

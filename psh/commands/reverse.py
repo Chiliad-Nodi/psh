@@ -26,8 +26,8 @@ class Reverse(BaseCommand):
             mapped_inputs = map(lambda node: node.data, input_generator)
             #remove all flags
             mapped_args = filter(lambda arg: arg[0] != '-', self.args)
-            mapped_args = map(lambda arg: arg.encode("utf-8"), mapped_args)
-            mapped_args.extend(mapped_inputs)
+            mapped_args = list(map(lambda arg: arg.encode("utf-8"), mapped_args))
+            mapped_args.extend(list(mapped_inputs))
             #reverse arguments
             reverse_result = reversed(mapped_args)
             #return results
