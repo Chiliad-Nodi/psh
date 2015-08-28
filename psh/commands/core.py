@@ -7,6 +7,7 @@ from psh.tree import TreeNode
 
 ERROR_LOG = "~/.error"
 
+shellvars = {"SHELL":"psh"}
 
 class BaseCommand(object):
     """Commands can be used to chain the execution of multiple programs

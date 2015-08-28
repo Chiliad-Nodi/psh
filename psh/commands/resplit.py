@@ -21,9 +21,9 @@ class Resplit(BaseCommand):
             #Parse flags:
             for arg in filter(lambda arg:arg[0] == '-', self.args):
                 if(arg[0:2] == '-s'): #separator
-                    seperator = arg[2:]
+                    seperator = arg[2:3]
                 elif(arg[0:2] == '-o'): #oldsep
-                    oldsep = arg;
+                    oldsep = arg[2:3];
                 else:
                     self.estream("Invalid argument: Ignoring " + arg)
 
