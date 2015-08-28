@@ -5,7 +5,7 @@ import os.path
 from psh.commands.formatters import Printer
 
 #No autodetection, all recognized commands must be listed here:
-from psh.commands import Sort, Reverse, Echo, Example, Cat, RawCommand, Resplit
+from psh.commands import Sort, Reverse, Echo, Example, Cat, RawCommand, Resplit, Setenv, cd, Unsetenv
 
 # Load all of the commands in the path into the global namespace as raw
 # commands.

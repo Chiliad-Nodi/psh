@@ -5,3 +5,6 @@ from psh.commands.example import *
 from psh.commands.cat import *
 from psh.commands.raw import *
 from psh.commands.resplit import *
+from psh.commands.setenv import *
+from psh.commands.unsetenv import *
+from psh.commands.cd import *

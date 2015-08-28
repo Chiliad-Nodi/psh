@@ -3,10 +3,9 @@ import code
 import os
 import readline
 
-from psh.commands.core import registered_cmds
+from psh.commands.core import registered_cmds, shellvars
 
 DEFAULT_HISTORY_FILE = "~/.psh_history"
-
 
 def parse_cmd(potential_cmd):
     """Evaluates a potential command. If it exists in the list of
@@ -17,10 +16,13 @@ def parse_cmd(potential_cmd):
     :return: A string that when evaluated by Python's `eval` feature
         would build an object of the correct type
     """
+    """Begins by parsing shell and environment variables"""
+    """Variable references must be wrapped in $(...)"""
     args = potential_cmd.strip().split(' ')
+    args = list(map(parse_var, args));
+    print(args)
     cmd_name = args[0]
-    if args:
-        args = args[1:]
+    args = args[1:]
     if cmd_name not in registered_cmds:
         return "RawCommand('{}')".format(potential_cmd)
     else:
@@ -34,6 +36,18 @@ def parse_cmds(raw_input_line):
     cmds = [parse_cmd(cmd) for cmd in potential_cmds]
     return cmds
 
+def parse_var(arg):
+    """Replaces shell or enviroment variable with its value"""
+    global shellvars
+    startindex = arg.find('$')
+    if startindex >= 0:
+        endindex = arg.find(')', startindex)
+        key = arg[startindex+2:endindex]
+        location = arg[startindex: endindex +1]
+        arg = arg.replace(location, shellvars[key])
+    if(arg.find('$') > 0):
+        return parse_var(arg)
+    return arg
 
 class HistoryConsole(code.InteractiveConsole):
     """Stolen from https://docs.python.org/2/library/readline.html
