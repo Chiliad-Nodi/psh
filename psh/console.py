@@ -19,6 +19,10 @@ def parse_cmd(potential_cmd):
     """Begins by parsing shell and environment variables"""
     """Variable references must be wrapped in $(...)"""
     args = potential_cmd.strip().split(' ')
+    #Test to see if it's a comment (line begins with #)
+    #if it is, turn whole line into a command that echos nothing
+    if args[0][0] == '#':
+        return "echo";
     args = list(map(parse_var, args));
     print(args)
     cmd_name = args[0]

@@ -18,10 +18,10 @@ class Unsetenv(BaseCommand):
         input_generator = self.get_input_generator()
         def output_generator():
             print (len(self.args))
-            if(len(self.args) < 2):
-                self.estream("Usage: setenv [-e] varname value");
+            if(len(self.args) < 1):
+                self.estream("Usage: setenv [-e] varname");
                 return output_generator
-            enviromnent = False;
+            environment = False;
             for arg in filter(lambda arg:arg[0] == '-', self.args):
                 if(arg[0:2] == '-e'): #export to enviroment (as opposed to shell)
                     environment = True;
@@ -32,5 +32,7 @@ class Unsetenv(BaseCommand):
             newvar = list(filter(lambda arg: arg[0] != '-', self.args))
             global shellvars
             shellvars.pop(newvar[0])
+            if(environment):
+                del os.environ[newvar[0]]
             yield TreeNode(b"")
         return output_generator

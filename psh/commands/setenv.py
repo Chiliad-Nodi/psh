@@ -21,7 +21,7 @@ class Setenv(BaseCommand):
             if(len(self.args) < 2):
                 self.estream("Usage: setenv [-e] varname value");
                 return output_generator
-            enviromnent = False;
+            environment = False;
             for arg in filter(lambda arg:arg[0] == '-', self.args):
                 if(arg[0:2] == '-e'): #export to enviroment (as opposed to shell)
                     environment = True;
@@ -33,5 +33,7 @@ class Setenv(BaseCommand):
             global shellvars
             shellvars [newvar[0]] = newvar[1]
             """export var to os.evironment"""
+            if (environment):
+                os.environ[newvar[0]] = newvar[1]
             yield TreeNode(b"")
         return output_generator
