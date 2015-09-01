@@ -40,12 +40,17 @@ def parse_var(arg):
     """Replaces shell or enviroment variable with its value"""
     global shellvars
     startindex = arg.find('$')
-    if startindex >= 0:
+    #if there is a $ and it's not preceded by a \
+    if startindex >= 0 and (startindex == 0 or not arg[startindex -1] == '\\'):
         endindex = arg.find(')', startindex)
         key = arg[startindex+2:endindex]
         location = arg[startindex: endindex +1]
-        arg = arg.replace(location, shellvars[key])
-    if(arg.find('$') > 0):
+        try:
+            arg = arg.replace(location, shellvars[key])
+        except(KeyError):
+            arg = arg.replace(location, "");
+    recurse = arg.find('$') #see if there are more variables in this block
+    if(recurse > 0 and not arg[recurse - 1] == "\\"):
         return parse_var(arg)
     return arg
 
