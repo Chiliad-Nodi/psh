@@ -14,6 +14,9 @@ class cd(BaseCommand):
     
     def call(self, *args, **kwargs):
         def output_generator():
-            os.chdir(os.path.join(os.path.abspath(os.path.curdir),self.args[0]))
+            if(self.args[0][0] == '/'):
+                os.chdir(self.args[0])
+            else:
+                os.chdir(os.path.join(os.path.abspath(os.path.curdir),self.args[0]))
             yield TreeNode(b'')
         return output_generator
