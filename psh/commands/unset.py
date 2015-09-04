@@ -5,12 +5,12 @@ from psh.tree import TreeNode
 
 from psh.commands.core import shellvars
 
-@register_cmd("unsetenv")
-class Unsetenv(BaseCommand):
-    """Unsets an environment variable and returns nothing."""
+@register_cmd("unset")
+class Unset(BaseCommand):
+    """Unsets a shell variable and returns nothing."""
 
     def __init__(self, args=[]):
-        super(Unsetenv, self).__init__()
+        super(Unset, self).__init__()
         self.args = args
 
         
@@ -19,12 +19,11 @@ class Unsetenv(BaseCommand):
         def output_generator():
             print (len(self.args))
             if(len(self.args) != 1):
-                self.estream("Usage: unsetenv varname");
+                self.estream("Usage: setenv varname");
                 return output_generator
             #Get the new variable name and value
             newvar = list(filter(lambda arg: arg[0] != '-', self.args))
             global shellvars
             shellvars.pop(newvar[0])
-            del os.environ[newvar[0]]
             yield TreeNode(b"")
         return output_generator

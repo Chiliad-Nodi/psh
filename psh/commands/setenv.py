@@ -18,22 +18,14 @@ class Setenv(BaseCommand):
         input_generator = self.get_input_generator()
         def output_generator():
             print (len(self.args))
-            if(len(self.args) < 2):
-                self.estream("Usage: setenv [-e] varname value");
+            if(len(self.args) != 2):
+                self.estream("Usage: setenv varname value");
                 return output_generator
-            environment = False;
-            for arg in filter(lambda arg:arg[0] == '-', self.args):
-                if(arg[0:2] == '-e'): #export to enviroment (as opposed to shell)
-                    environment = True;
-                else:
-                    self.estream("Invalid argument: Ignoring " + arg)
-
             #Get the new variable name and value
             newvar = list(filter(lambda arg: arg[0] != '-', self.args))
             global shellvars
             shellvars [newvar[0]] = newvar[1]
             """export var to os.evironment"""
-            if (environment):
-                os.environ[newvar[0]] = newvar[1]
+            os.environ[newvar[0]] = newvar[1]
             yield TreeNode(b"")
         return output_generator
