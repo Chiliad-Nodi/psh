@@ -1,0 +1,3 @@
+#!/bin/bash
+export PYTHONPATH=/home/mark/psh:$PYTHONPATH
+python3 -m psh.run < "$@"
