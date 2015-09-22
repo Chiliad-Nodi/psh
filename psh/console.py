@@ -2,6 +2,7 @@ import atexit
 import code
 import os
 import readline
+from psh.run import desugar, readall
 
 from psh.commands.core import registered_cmds, shellvars
 
@@ -18,11 +19,13 @@ def parse_cmd(potential_cmd):
     """
     """Begins by parsing shell and environment variables"""
     """Variable references must be wrapped in $(...)"""
+
     args = potential_cmd.strip().split(' ')
     #Test to see if it's a comment (line begins with #)
     #if it is, turn whole line into a command that echos nothing
     if args[0][0] == '#':
         return "echo";
+    #Based on flags, it'll either 
     args = list(map(parse_var, args));
     print(args)
     cmd_name = args[0]
@@ -57,6 +60,8 @@ def parse_var(arg):
     if(recurse > 0 and not arg[recurse - 1] == "\\"):
         return parse_var(arg)
     return arg
+
+
 
 class HistoryConsole(code.InteractiveConsole):
     """Stolen from https://docs.python.org/2/library/readline.html
@@ -97,6 +102,12 @@ class HistoryConsole(code.InteractiveConsole):
             mangled_input += ".call()"
             print("[DEBUG]: evaluating Python: ", mangled_input)
             return mangled_input
+
+    def parse_block():
+        '''In this function, desugar if desugar is set, 
+        then parse the desugared commands one at a time'''
+        #TODO: DESUGAR
+        return sys.stdin.readlines()
 
 
     def save_history(self, histfile):
