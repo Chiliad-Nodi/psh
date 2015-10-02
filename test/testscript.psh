@@ -1,0 +1,6 @@
+#!/usr/local/sbin/pshs
+import sys
+Echo(['1']).chain(Printer()).call()
+A = 5
+Echo(['Hello World']).chain(Printer()).call()
+echo (A)
