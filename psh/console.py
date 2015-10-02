@@ -2,6 +2,9 @@ import atexit
 import code
 import os
 import readline
+import sys
+import functools
+
 from psh.run import desugar, readall
 
 from psh.commands.core import registered_cmds, shellvars
@@ -103,12 +106,25 @@ class HistoryConsole(code.InteractiveConsole):
             print("[DEBUG]: evaluating Python: ", mangled_input)
             return mangled_input
 
-    def parse_block():
+    def parse_block(self):
         '''In this function, desugar if desugar is set, 
         then parse the desugared commands one at a time'''
-        #TODO: DESUGAR
-        return sys.stdin.readlines()
-
+        global desugar
+        if(desugar):
+            #run desugar function
+            block = sys.stdin.readlines()
+            map(lambda command: command + '\n', block)
+            block = functools.reduce(lambda cmd1, cmd2: cmd1 + cmd2, block)
+            #print(block)
+            self.runcode(block)
+        else:
+            #return the whole block as is
+            block = sys.stdin.readlines()
+            map(lambda command: command + '\n', block)
+            block = functools.reduce(lambda cmd1, cmd2: cmd1 + cmd2, block)
+            print(block)
+            exec(block)
+    
 
     def save_history(self, histfile):
         readline.write_history_file(histfile)
