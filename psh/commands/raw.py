@@ -1,16 +1,16 @@
 import shlex
 
 from psh.commands.formatters import Printer
-from psh.commands import BaseCommand
+from psh.commands.core import BaseCommand, register_cmd
 from psh.tree import TreeNode
 
-
+@register_cmd("raw")
 class RawCommand(BaseCommand):
     """Fallback raw command that just invokes an existing Unix utility program
     with the builtin subprocess module. Each output object is just a tree node
     whose data is a simple string."""
 
-    def __init__(self, cmd):
+    def __init__(self, cmd=[]):
         super(RawCommand, self).__init__()
         self.cmd = cmd
 

@@ -48,7 +48,7 @@ def main():
     if(not readall):
         console.interact("Augmented Unix Userland")
     else:
-        console.parse_block()
+        console.parse_and_exec_block()
 
 if __name__ == '__main__':
     main()

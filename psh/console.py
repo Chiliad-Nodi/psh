@@ -30,7 +30,7 @@ def parse_cmd(potential_cmd):
         return "echo";
     #Based on flags, it'll either 
     args = list(map(parse_var, args));
-    print(args)
+    #print(args)
     cmd_name = args[0]
     args = args[1:]
     if cmd_name not in registered_cmds:
@@ -52,11 +52,14 @@ def parse_var(arg):
     startindex = arg.find('$')
     #if there is a $ and it's not preceded by a \
     if startindex >= 0 and (startindex == 0 or not arg[startindex -1] == '\\'):
-        endindex = arg.find(')', startindex)
+        endindex = arg.find('}', startindex)
+        if(endindex < 0):
+            return ""
         key = arg[startindex+2:endindex]
         location = arg[startindex: endindex +1]
         try:
             arg = arg.replace(location, shellvars[key])
+            print(location)
         except(KeyError):
             arg = arg.replace(location, "");
     recurse = arg.find('$') #see if there are more variables in this block
@@ -103,27 +106,49 @@ class HistoryConsole(code.InteractiveConsole):
             for cmd in cmds[1:]:
                 mangled_input += ".chain(" + cmd + ")"
             mangled_input += ".call()"
-            print("[DEBUG]: evaluating Python: ", mangled_input)
+            #print("[DEBUG]: evaluating Python: ", mangled_input)
             return mangled_input
+        
+    def parse_line(self, line):
+        cmd_name = line.strip().split(' ')[0] #Strip out command name
+        #Save whitespace to add it back at end
+        cmd_white = line[0:line.find(cmd_name)] 
+        if(cmd_name in registered_cmds):
+            #raw commands are special, and must be treated differently
+            if(cmd_name == 'raw'):
+                #get the raw command as a string and without the word raw
+                rawc = str(line).strip()[3:]
+                return "RawCommand('{}').chain(Printer()).call()\n".format(rawc)
+            cmds = parse_cmds(line)
+            cmds.append("Printer()")
+            #print ("original cmd: " + str(cmds))
+            mangled_input = cmds[0]
+            for cmd in cmds[1:]:
+                mangled_input += ".chain(" + cmd + ")"
+            mangled_input += ".call()"
+            return cmd_white + mangled_input + '\n'
+        else:
+            return line
 
-    def parse_block(self):
+    def parse_and_exec_block(self):
         '''In this function, desugar if desugar is set, 
         then parse the desugared commands one at a time'''
         global desugar
         if(desugar):
-            #run desugar function
             block = sys.stdin.readlines()
             map(lambda command: command + '\n', block)
-            block = functools.reduce(lambda cmd1, cmd2: cmd1 + cmd2, block)
-            #print(block)
-            self.runcode(block)
+            #print(registered_cmds)
+            parsed = []
+            for line in block:
+                #desugar a line, if it needs to be desugared
+                parsed.append(self.parse_line(line))
+            #print("Parsed Commands: " + str(parsed))
+            execable = functools.reduce(lambda cmd1, cmd2: cmd1 + cmd2, parsed)
+            execable = "from psh.commands import *\n" + str(execable)
+            #print (execable)
+            exec(execable)
         else:
-            #return the whole block as is
-            block = sys.stdin.readlines()
-            map(lambda command: command + '\n', block)
-            block = functools.reduce(lambda cmd1, cmd2: cmd1 + cmd2, block)
-            print(block)
-            exec(block)
+            pass
     
 
     def save_history(self, histfile):

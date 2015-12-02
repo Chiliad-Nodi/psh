@@ -17,7 +17,7 @@ class Setenv(BaseCommand):
     def call(self,*args,**kwargs):
         input_generator = self.get_input_generator()
         def output_generator():
-            print (len(self.args))
+            #print (len(self.args))
             if(len(self.args) != 2):
                 self.estream("Usage: setenv varname value");
                 return output_generator
