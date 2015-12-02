@@ -1,0 +1,11 @@
+#!/usr/local/sbin/pshs
+
+for i in range(0,5):
+    echo loop! 
+
+sky = "blue"
+if(sky == "blue"):
+    sort 3 1 2
+else:
+    echo drip drop
+    

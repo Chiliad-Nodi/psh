@@ -1,0 +1,10 @@
+#!/usr/local/sbin/pshs
+import sys
+Echo(['Hello World']).chain(Printer()).call()
+echo Python_Path:
+print(sys.path)
+A = '5'
+#Print the value of A. Don't forget to chain a formatter!
+Echo([A]).chain(Printer()).call()
+raw echo 3 1 4 reversed
+reverse 3 1 4
